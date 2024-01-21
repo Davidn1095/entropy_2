@@ -1,0 +1,33 @@
+# Humedad: Alta
+humedad_alta_si <- 3 
+humedad_alta_no <- 4  
+humedad_alta_total <- humedad_alta_si + humedad_alta_no
+
+# Humedad: Normal
+humedad_normal_si <- 6
+humedad_normal_no <- 1
+humedad_normal_total <- humedad_normal_si + humedad_normal_no
+
+# Función para calcular la entropía
+entropy <- function(p) {
+  if (p == 0 || p == 1) {
+    return(0)
+  } else {
+    return(-p * log2(p) - (1 - p) * log2(1 - p))
+  }
+}
+
+# Cálculo de entropía condicionada para Humedad
+I_humedad_alta <- entropy(humedad_alta_si / humedad_alta_total) 
++ entropy(humedad_alta_no / humedad_alta_total)
+I_humedad_normal <- entropy(humedad_normal_si / humedad_normal_total) 
++ entropy(humedad_normal_no / humedad_normal_total)
+
+# Cálculo de entropía condicionada total para Humedad
+total_ejemplos <- 14
+I_humedad <- (humedad_alta_total / total_ejemplos) * I_humedad_alta 
++ (humedad_normal_total / total_ejemplos) * I_humedad_normal
+
+# Cálculo de Ganancia de Información para Humedad
+I <- entropy(9/14)  # Entropía del conjunto de datos completo
+G_humedad <- I - I_humedad
